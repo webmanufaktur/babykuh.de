@@ -37,34 +37,9 @@ import myImage from "../assets/babykuh-logo.png";
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
-
-    <style>
-      html {
-        box-sizing: border-box;
-      }
-      *,
-      *:before,
-      *:after {
-        box-sizing: inherit;
-      }
-      html,
-      body {
-        min-height: 100vh;
-        min-height: 100svh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
-      }
-      .logo {
-        display: block;
-        height: auto;
-        max-width: 400px;
-      }
-    </style>
   </head>
-  <body>
-    <div class="logo">
+  <body class="min-h-[100vh] min-h-[100svh] flex justify-center items-center">
+    <div class="block h-auto max-w-[400px]">
       <Picture
         src={myImage}
         formats={["avif", "webp"]}

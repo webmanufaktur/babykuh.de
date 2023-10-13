@@ -1,5 +1,6 @@
 ---
-
+import { Picture } from "astro:assets";
+import myImage from "../assets/babykuh-logo.png";
 ---
 
 <html lang="de">
@@ -63,12 +64,13 @@
   </head>
   <body>
     <div class="logo">
-      <img
-        src="/babykuh-logo.png"
-        alt="[Logo] BABY KUH | babykuh.de"
+      <Picture
+        src={myImage}
+        formats={["avif", "webp"]}
+        widths={[400]}
         height="400"
         width="400"
-        class="logo"
+        alt="[Logo] BABY KUH | babykuh.de"
       />
     </div>
   </body>

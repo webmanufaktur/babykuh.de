@@ -3,20 +3,23 @@ import { getCollection } from "astro:content";
 const faqs = await getCollection("faqs");
 ---
 
-{
-  faqs.map(async (entry) => {
-    const { Content } = await entry.render();
-    return (
-      <details id={entry.slug}>
-        <summary>{entry.data.title}</summary>
-        <div class="prose">
-          <Content />
-        </div>
-      </details>
-    );
-  })
-}
-
+<div class="min-h-[100vh] min-h-[100svh] flex justify-center items-center">
+  <div id="faq" class="p-8 max-w-3xl mx-auto space-y-4">
+    {
+      faqs.map(async (entry) => {
+        const { Content } = await entry.render();
+        return (
+          <details id={entry.slug} class="bg-white rounded shadow p-4">
+            <summary class="cursor-pointer">{entry.data.title}</summary>
+            <div class="prose prose-gray pt-4 ">
+              <Content />
+            </div>
+          </details>
+        );
+      })
+    }
+  </div>
+</div>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     // Get all details elements

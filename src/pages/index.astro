@@ -1,9 +1,10 @@
 ---
 import { Picture } from "astro:assets";
 import myImage from "../assets/babykuh-logo.png";
+import Faqs from "../components/Faqs.astro";
 ---
 
-<html lang="de">
+<html lang="de" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -38,16 +39,21 @@ import myImage from "../assets/babykuh-logo.png";
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
   </head>
-  <body class="min-h-[100vh] min-h-[100svh] flex justify-center items-center">
-    <div class="block h-auto max-w-[400px]">
-      <Picture
-        src={myImage}
-        formats={["avif", "webp"]}
-        widths={[600]}
-        height="400"
-        width="400"
-        alt="[Logo] BABY KUH | babykuh.de"
-      />
+  <body class="bg-gray-100">
+    <div class="min-h-[100vh] min-h-[100svh] flex justify-center items-center">
+      <div class="block h-auto max-w-[400px]">
+        <a href="#faq"
+          ><Picture
+            src={myImage}
+            formats={["avif", "webp"]}
+            widths={[600]}
+            height="400"
+            width="400"
+            alt="[Logo] BABY KUH | babykuh.de"
+          /></a
+        >
+      </div>
     </div>
+    <Faqs />
   </body>
 </html>

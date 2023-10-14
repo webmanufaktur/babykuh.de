@@ -1,0 +1,51 @@
+---
+import { getCollection } from "astro:content";
+const faqs = await getCollection("faqs");
+---
+
+{
+  faqs.map(async (entry) => {
+    const { Content } = await entry.render();
+    return (
+      <details id={entry.slug}>
+        <summary>{entry.data.title}</summary>
+        <div class="prose">
+          <Content />
+        </div>
+      </details>
+    );
+  })
+}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get all details elements
+    watchFaq();
+  });
+  document.addEventListener("astro:after-swap", function () {
+    // Get all details elements
+    watchFaq();
+  });
+
+  function watchFaq() {
+    const detailsElements = document.querySelectorAll("details");
+
+    // Function to close other details when one is opened
+    function closeOtherDetails(targetDetails) {
+      detailsElements.forEach((details) => {
+        if (details !== targetDetails) {
+          details.removeAttribute("open");
+        }
+      });
+    }
+
+    // Add event listeners to each details
+    detailsElements.forEach((details) => {
+      details.addEventListener("toggle", (event) => {
+        if (event.target.open) {
+          closeOtherDetails(details);
+        }
+      });
+    });
+  }
+</script>

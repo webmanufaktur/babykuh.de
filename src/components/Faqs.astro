@@ -3,14 +3,16 @@ import { getCollection } from "astro:content";
 const faqs = await getCollection("faqs");
 ---
 
-<div class="min-h-[100vh] min-h-[100svh] flex justify-center items-center">
-  <div id="faq" class="p-8 max-w-3xl mx-auto space-y-4">
+<div class="flex justify-center items-center">
+  <div id="faq" class="mb-24 max-w-3xl mx-auto space-y-4">
     {
       faqs.map(async (entry) => {
         const { Content } = await entry.render();
         return (
           <details id={entry.slug} class="bg-white rounded shadow p-4">
-            <summary class="cursor-pointer">{entry.data.title}</summary>
+            <summary class="cursor-pointer">
+              <h2 class="inline font-medium">{entry.data.title}</h2>
+            </summary>
             <div class="prose prose-gray pt-4 ">
               <Content />
             </div>
@@ -20,16 +22,50 @@ const faqs = await getCollection("faqs");
     }
   </div>
 </div>
-<script>
+<script lang="js">
   document.addEventListener("DOMContentLoaded", function () {
-    // Get all details elements
     watchFaq();
-  });
-  document.addEventListener("astro:after-swap", function () {
-    // Get all details elements
-    watchFaq();
+    handleHashChange();
+    setupHashLinks(); // Setup hash links on page load
   });
 
+  document.addEventListener("astro:after-swap", function () {
+    watchFaq();
+    handleHashChange();
+    setupHashLinks(); // Setup hash links on content swap
+  });
+
+  window.addEventListener("hashchange", handleHashChange); // Listen for hash changes
+
+  // Function to handle clicks on hash links
+  function setupHashLinks() {
+    const hashLinks = document.querySelectorAll('a[href^="#"]');
+    hashLinks.forEach((link) => {
+      link.addEventListener("click", function (event) {
+        const hash = this.getAttribute("href");
+        if (hash) {
+          const targetDetails = document.querySelector(`details${hash}`);
+          if (targetDetails) {
+            targetDetails.open = true;
+            event.preventDefault(); // Prevent default anchor behavior
+          }
+        }
+      });
+    });
+  }
+
+  // Function to open specific FAQ based on URL hash
+  function handleHashChange() {
+    const hash = window.location.hash;
+    if (hash) {
+      const targetDetails = document.querySelector(`details${hash}`);
+      if (targetDetails) {
+        targetDetails.open = true;
+      }
+    }
+  }
+
+  // Function to watch FAQ elements
   function watchFaq() {
     const detailsElements = document.querySelectorAll("details");
 
@@ -46,7 +82,7 @@ const faqs = await getCollection("faqs");
     detailsElements.forEach((details) => {
       details.addEventListener("toggle", (event) => {
         if (event.target.open) {
-          closeOtherDetails(details);
+          closeOtherDetails(event.target);
         }
       });
     });
